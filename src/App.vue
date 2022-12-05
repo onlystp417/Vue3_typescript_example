@@ -1,5 +1,7 @@
 <script setup></script>
 
-<template></template>
+<template>
+  <div>Clinic System</div>
+</template>
 
 <style lang="scss"></style>
