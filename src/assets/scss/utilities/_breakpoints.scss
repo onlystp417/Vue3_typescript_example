@@ -1,0 +1,27 @@
+// 此次專案會用到的斷點
+$sm: 600px;
+$md: 1024px;
+$lg: 1440px;
+
+@mixin breakpoint($min_width) {
+  @media (min-width: $min_width) {
+    @content;
+  }
+}
+
+// 使用範例說明
+//  @include breakpoint($xl) {
+//     要改動地方
+//   }
+
+// 實際範例: 假如有一個class name叫做apple的div，裡面包著文字
+//  .apple {
+//   @include breakpoint($md) {
+//     font-size: 1rem;
+//     color: red;
+//   }
+//   @include breakpoint($lg) {
+//     font-size: 2rem;
+//     color: green;
+//   }
+// }
