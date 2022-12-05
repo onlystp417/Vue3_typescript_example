@@ -1,0 +1,36 @@
+{
+  "name": "vue-project",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
+  },
+  "dependencies": {
+    "@line/liff": "^2.21.3",
+    "@quasar/extras": "^1.15.6",
+    "@quasar/quasar-ui-qcalendar": "^4.0.0-beta.15",
+    "@tiptap/starter-kit": "^2.0.0-beta.204",
+    "@tiptap/vue-3": "^2.0.0-beta.204",
+    "pinia": "^2.0.26",
+    "quasar": "^2.10.2",
+    "vue": "^3.2.45",
+    "vue-router": "^4.1.6"
+  },
+  "devDependencies": {
+    "@quasar/vite-plugin": "^1.2.3",
+    "@rushstack/eslint-patch": "^1.1.4",
+    "@vitejs/plugin-vue": "^3.2.0",
+    "@vue/eslint-config-prettier": "^7.0.0",
+    "eslint": "^8.22.0",
+    "eslint-plugin-vue": "^9.3.0",
+    "prettier": "^2.7.1",
+    "sass": "^1.32.12",
+    "vite": "^3.2.4"
+  },
+  "volta": {
+    "node": "18.12.1"
+  }
+}
