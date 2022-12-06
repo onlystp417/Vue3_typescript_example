@@ -12,11 +12,11 @@ import '@quasar/extras/material-icons-round/material-icons-round.css';
 
 import 'quasar/src/css/index.sass';
 import '@quasar/quasar-ui-qcalendar/src/css/calendar-month.sass';
-const app = createApp(App);
 
-app.use(createPinia());
-app.use(router);
-app.use(Quasar, {
-  QCalendarMonth
-});
-app.mount('#app');
+const app = createApp(App)
+  .use(createPinia())
+  .use(router)
+  .use(Quasar, {
+    QCalendarMonth
+  })
+  .mount('#app');
