@@ -3,13 +3,17 @@ import { RouterView } from 'vue-router';
 </script>
 
 <template>
+  <h1>前台區</h1>
+
+  <header></header>
+
   <main>
     <RouterView />
   </main>
 </template>
 
 <style lang="scss">
-// main {
-// text-align: center;
-// }
+main {
+  text-align: center;
+}
 </style>

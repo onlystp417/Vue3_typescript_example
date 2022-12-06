@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
+// import HomeView from '@/views/App.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -8,6 +9,7 @@ const router = createRouter({
       name: 'Home',
       component: () => import(/* webpackChunkName: "app" */ '@/App.vue'),
       children: [
+        // 後台部分
         {
           path: '/admin',
           name: 'Admin',
@@ -31,15 +33,35 @@ const router = createRouter({
             }
           ]
         },
+        // 前台部分
         {
-          path: '/user',
-          name: 'user',
+          path: '/liff',
+          name: 'liff',
           component: () => import(/* webpackChunkName: "liff" */ '@/liff/views/Home.vue')
-          // route level code-splitting
-          // this generates a separate chunk (About.[hash].js) for this route
-          // which is lazy-loaded when the route is visited.
+          // children: [
+          //   {
+          //     path: 'navigation1',
+          //     name: 'navigation2',
+          //     component: () => import('@/'),
+          //   },
+          //   {
+          //     path: 'navigation2',
+          //     name: 'navigation2',
+          //     component: () => import('@/'),
+          //   },
+          //   {
+          //     path: 'navigation3',
+          //     name: 'navigation3',
+          //     component: () => import('@/'),
+          //   },
+          // ],
         }
       ]
+    },
+    // 當網址是設定之外時，會直接導回home的view頁面。
+    {
+      path: '/:pathMatch(.*)*',
+      redirect: { name: 'Home' }
     }
   ]
 });
