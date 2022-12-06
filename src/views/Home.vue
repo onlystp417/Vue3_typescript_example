@@ -13,7 +13,7 @@ import { RouterLink, RouterView } from 'vue-router';
     <q-btn color="primary" style="width: 300px">
       <div class="ellipsis">
         <div class="apple">
-          <RouterLink to="/backStage">後台入口處</RouterLink>
+          <RouterLink to="/admin">後台入口處</RouterLink>
         </div>
       </div>
     </q-btn>
