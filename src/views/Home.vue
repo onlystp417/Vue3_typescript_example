@@ -23,6 +23,10 @@ import { RouterLink, RouterView } from 'vue-router';
 </template>
 
 <style lang="scss">
+h1 {
+  text-align: center;
+}
+
 .a_box {
   display: flex;
   justify-content: space-evenly;
