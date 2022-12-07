@@ -8,8 +8,4 @@ import { RouterView } from 'vue-router';
   </main>
 </template>
 
-<style lang="scss">
-// main {
-// text-align: center;
-// }
-</style>
+<style lang="scss"></style>
