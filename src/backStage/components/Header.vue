@@ -57,6 +57,10 @@ const menuList = [
     label: '歷程紀錄',
     routeName: 'Appointment',
   },
+  {
+    label: '排班',
+    routeName: 'ArrangeSchedule',
+  },
 ];
 </script>
 
