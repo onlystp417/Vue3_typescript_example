@@ -18,7 +18,7 @@ import Header from '..//components/Header.vue';
   &__header {
     position: sticky;
     top: 0;
-    z-index: 9;
+    z-index: 3;
   }
 }
 </style>
