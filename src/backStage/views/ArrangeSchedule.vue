@@ -559,15 +559,15 @@ export default defineComponent({
     }
 
     &.cross-am {
-      @include cross(163px, 374px, rgb(236, 235, 235));
+      @include cross(202px, 303px, rgb(236, 235, 235));
     }
 
     &.cross-pm {
-      @include cross(539px, 303px, white);
+      @include cross(507px, 303px, white);
     }
 
     &.cross-ng {
-      @include cross(843px, 303px, rgb(236, 235, 235));
+      @include cross(811px, 303px, rgb(236, 235, 235));
     }
   }
 
