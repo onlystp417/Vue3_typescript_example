@@ -18,6 +18,7 @@ export default defineComponent({
   },
   data() {
     return {
+      shape: false,
       duringWeek: null,
       todayColor: 'todayColor',
       selectedDate: today(),
@@ -218,160 +219,209 @@ export default defineComponent({
 </script>
 
 <template>
-  <div
-    class="subcontent myCalendar"
-    style="display: flex; justify-content: center; flex-direction: column"
-  >
-    <div style="display: flex; justify-content: flex-end; align-items: center">
-      <navigation-bar @today="onToday" @prev="onPrev" @next="onNext" />
-    </div>
-    <div class="row justify-center">
-      <div
-        style="
-          display: flex;
-          justify-content: center;
-          flex-direction: column;
-          align-items: center;
-          position: relative;
-          width: fit-content;
-          padding: 0;
-        "
-      >
-        {{ selectedDate }}
-        <p style="font-size: 30px">
-          {{ duringWeek }}
-        </p>
-        <div class="resources-container__cross cross-am">
-          <p>上</p>
-          <p>午</p>
-          <p>診</p>
-          <div class="cross__time">
-            <p>8:30</p>
-            <p>~</p>
-            <p>12:30</p>
-          </div>
-        </div>
-        <div class="resources-container__cross cross-pm">
-          <p>下</p>
-          <p>午</p>
-          <p>診</p>
-          <div class="cross__time">
-            <p>14:30</p>
-            <p>~</p>
-            <p>18:30</p>
-          </div>
-        </div>
-        <div class="resources-container__cross cross-ng">
-          <p>晚</p>
-          <p></p>
-          <p>診</p>
-          <div class="cross__time">
-            <p>19:00</p>
-            <p>~</p>
-            <p>21:30</p>
-          </div>
-        </div>
-        <q-calendar-scheduler
-          ref="calendar"
-          locale="zh-HANT"
-          v-model="selectedDate"
-          v-model:model-resources="resources"
-          view="week"
-          :now="nowDate"
-          :hoverable="hoverable"
-          :focusable="focusable"
-          :focus-type="focusType"
-          animated
-          bordered
-          style="max-width: 942px; width: 100%"
-          cell-width="120px"
-          @change="onWeek"
-          @moved="onMoved"
-          @click-date="onClickDate"
-          @click-day-resource="onClickDayResource"
-          @click-resource="onClickResource"
-          @click-head-resources="onClickHeadResources"
-          @click-head-day="onClickHeadDay"
+  <div class="calendar">
+    <div
+      class="subcontent myCalendar"
+      style="display: flex; justify-content: center; flex-direction: column"
+    >
+      <div class="row justify-center">
+        <div
+          style="
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            width: fit-content;
+            padding: 0;
+          "
         >
-          <!-- <template #head-day-event>
-              <div>hello</div>
-            </template> -->
-          <template #head-day="{ scope }">
-            <div
-              style="
-                font-size: 13px;
-                display: flex;
-                flex-direction: row;
-                justify-content: space-between;
-              "
-            >
-              <input type="checkbox" />
-              <span>星期{{ whichWeek(scope.timestamp.weekday) }} </span>
-              <span
-                :class="
-                  selectedDate === scope.timestamp.date ? 'todayColor' : ''
+          <div class="myCalendar__header">
+            <div class="edit__container">
+              <q-btn color="blue-grey-2" text-color="black">
+                編輯模式
+                <q-toggle size="sm" v-model="shape" val="sm" />
+              </q-btn>
+
+              <q-btn outline color="purple-5" text-color="black">
+                新增週期排班
+              </q-btn>
+            </div>
+            <div class="filter__container">
+              <div class="during_week">
+                <p style="font-size: 30px">
+                  {{ duringWeek }}
+                </p>
+              </div>
+              <div class="filter-group">
+                <div class="total-number">
+                  <select name="" id="">
+                    <option value="">1</option>
+                  </select>
+                </div>
+                <div class="total-room">
+                  <select name="" id="">
+                    <option value="">1</option>
+                  </select>
+                </div>
+                <div class="total-doctor">
+                  <select name="" id="">
+                    <option value="">1</option>
+                  </select>
+                </div>
+                <div class="total-staff">
+                  <select name="" id="">
+                    <option value="">1</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="download__container">
+              <div class="myNavigation">
+                <navigation-bar
+                  @today="onToday"
+                  @prev="onPrev"
+                  @next="onNext"
+                />
+              </div>
+              <q-btn style="background-color: #dcb5ff">快速發佈</q-btn>
+              <q-btn outline color="white" text-color="black">
+                下載 excel 檔
+              </q-btn>
+            </div>
+          </div>
+          <div class="resources-container__cross cross-am">
+            <p>上</p>
+            <p>午</p>
+            <p>診</p>
+            <div class="cross__time">
+              <p>8:30</p>
+              <p>~</p>
+              <p>12:30</p>
+            </div>
+          </div>
+          <div class="resources-container__cross cross-pm">
+            <p>下</p>
+            <p>午</p>
+            <p>診</p>
+            <div class="cross__time">
+              <p>14:30</p>
+              <p>~</p>
+              <p>18:30</p>
+            </div>
+          </div>
+          <div class="resources-container__cross cross-ng">
+            <p>晚</p>
+            <p></p>
+            <p>診</p>
+            <div class="cross__time">
+              <p>19:00</p>
+              <p>~</p>
+              <p>21:30</p>
+            </div>
+          </div>
+          <q-calendar-scheduler
+            ref="calendar"
+            locale="zh-HANT"
+            v-model="selectedDate"
+            v-model:model-resources="resources"
+            view="week"
+            :now="nowDate"
+            :hoverable="hoverable"
+            :focusable="focusable"
+            :focus-type="focusType"
+            animated
+            bordered
+            style="width: 100%"
+            cell-width="120px"
+            @change="onWeek"
+            @moved="onMoved"
+            @click-date="onClickDate"
+            @click-day-resource="onClickDayResource"
+            @click-resource="onClickResource"
+            @click-head-resources="onClickHeadResources"
+            @click-head-day="onClickHeadDay"
+          >
+            <!-- <template #head-day-event>
+                <div>hello</div>
+              </template> -->
+            <template #head-day="{ scope }">
+              <div
+                style="
+                  font-size: 13px;
+                  display: flex;
+                  flex-direction: row;
+                  justify-content: space-between;
                 "
-                >{{ scope.timestamp.day }}</span
               >
-              <button
-                style="font-size: 10px; margin: 0; border: 1px gray solid"
-              >
-                貼上
-              </button>
-            </div>
-          </template>
-          <template #head-resources>
-            <div style="width: 100%">
-              <span>診間/診次</span>
-            </div>
-          </template>
-          <template #resource-label="{ scope: { resource } }">
-            <div
-              class="resources-container"
-              v-if="resource.label === '休假人員'"
-            >
-              {{ resource.label }}
-            </div>
-            <template v-for="item in resources">
+                <input type="checkbox" />
+                <span>星期{{ whichWeek(scope.timestamp.weekday) }} </span>
+                <span
+                  :class="
+                    selectedDate === scope.timestamp.date ? 'todayColor' : ''
+                  "
+                  >{{ scope.timestamp.day }}</span
+                >
+                <button
+                  style="font-size: 10px; margin: 0; border: 1px gray solid"
+                >
+                  貼上
+                </button>
+              </div>
+            </template>
+            <template #head-resources>
+              <div style="width: 100%">
+                <span>診間/診次</span>
+              </div>
+            </template>
+            <template #resource-label="{ scope: { resource } }">
               <div
                 class="resources-container"
-                v-if="resource.label === item.label"
+                v-if="resource.label === '休假人員'"
               >
-                <div></div>
-                <p class="resources-container__label">{{ item.number }}</p>
+                {{ resource.label }}
               </div>
+              <template v-for="item in resources">
+                <div
+                  class="resources-container"
+                  v-if="resource.label === item.label"
+                >
+                  <div></div>
+                  <p class="resources-container__label">{{ item.number }}</p>
+                </div>
+              </template>
             </template>
-          </template>
-          <!-- <template #resource-days="{ scope }">
-              <p>22</p>
-            </template> -->
-          <template #day="{ scope }">
-            <template v-for="r in getRestSchedule(scope)" :key="r.name">
-              <div style="background-color: yellow">
-                {{ r.name }}
-              </div>
+            <!-- <template #resource-days="{ scope }">
+                <p>22</p>
+              </template> -->
+            <template #day="{ scope }">
+              <template v-for="r in getRestSchedule(scope)" :key="r.name">
+                <div style="background-color: yellow">
+                  {{ r.name }}
+                </div>
+              </template>
+              <template
+                v-for="s in getSingleSchedule(scope)"
+                :key="s.name + s.time"
+              >
+                <div style="background-color: pink">
+                  <span>{{ s.name }}</span>
+                  <span> {{ s.time }}</span>
+                  <p>{{ s.type }}</p>
+                </div>
+              </template>
+              <template
+                v-for="w in getWeekSchedule(scope)"
+                :key="w.name + w.time"
+              >
+                <div style="background-color: goldenrod">
+                  <span>{{ w.name }}</span>
+                  <p>{{ w.type }}</p>
+                </div>
+              </template>
             </template>
-            <template
-              v-for="s in getSingleSchedule(scope)"
-              :key="s.name + s.time"
-            >
-              <div style="background-color: pink">
-                <span>{{ s.name }}</span>
-                <span> {{ s.time }}</span>
-                <p>{{ s.type }}</p>
-              </div>
-            </template>
-            <template
-              v-for="w in getWeekSchedule(scope)"
-              :key="w.name + w.time"
-            >
-              <div style="background-color: goldenrod">
-                <span>{{ w.name }}</span>
-                <p>{{ w.type }}</p>
-              </div>
-            </template>
-          </template>
-        </q-calendar-scheduler>
+          </q-calendar-scheduler>
+        </div>
       </div>
     </div>
   </div>
@@ -380,6 +430,45 @@ export default defineComponent({
 <style lang="scss">
 .myCalendar {
   --calendar-border: #bebebeff 1.5px solid;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+
+    flex-direction: row;
+    width: 100%;
+
+    .edit__container {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+
+    .filter__container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      .filter-group {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        gap: 10px;
+      }
+    }
+
+    .download__container {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      .myNavigation {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+      }
+    }
+  }
 }
 
 .myCalendar .q-calendar-scheduler__resource--row {
@@ -470,15 +559,15 @@ export default defineComponent({
     }
 
     &.cross-am {
-      @include cross(176px, 303px, rgb(236, 235, 235));
+      @include cross(163px, 374px, rgb(236, 235, 235));
     }
 
     &.cross-pm {
-      @include cross(481px, 303px, white);
+      @include cross(539px, 303px, white);
     }
 
     &.cross-ng {
-      @include cross(785px, 303px, rgb(236, 235, 235));
+      @include cross(843px, 303px, rgb(236, 235, 235));
     }
   }
 
