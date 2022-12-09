@@ -563,7 +563,7 @@ export default defineComponent({
     }
 
     &.cross-pm {
-      @include cross(507px, 303px, white);
+      @include cross(539px, 303px, white);
     }
 
     &.cross-ng {
