@@ -242,7 +242,9 @@ export default defineComponent({
           {{ duringWeek }}
         </p>
         <div class="resources-container__cross cross-am">
-          <p style="writing-mode: vertical-lr">上午診</p>
+          <p>上</p>
+          <p>午</p>
+          <p>診</p>
           <div class="cross__time">
             <p>8:30</p>
             <p>~</p>
@@ -250,7 +252,9 @@ export default defineComponent({
           </div>
         </div>
         <div class="resources-container__cross cross-pm">
-          <p style="writing-mode: vertical-lr">下午診</p>
+          <p>下</p>
+          <p>午</p>
+          <p>診</p>
           <div class="cross__time">
             <p>14:30</p>
             <p>~</p>
@@ -258,7 +262,9 @@ export default defineComponent({
           </div>
         </div>
         <div class="resources-container__cross cross-ng">
-          <p style="writing-mode: vertical-lr">晚診</p>
+          <p>晚</p>
+          <p></p>
+          <p>診</p>
           <div class="cross__time">
             <p>19:00</p>
             <p>~</p>
@@ -464,15 +470,15 @@ export default defineComponent({
     }
 
     &.cross-am {
-      @include cross(180px, 303px, rgb(236, 235, 235));
+      @include cross(176px, 303px, rgb(236, 235, 235));
     }
 
     &.cross-pm {
-      @include cross(485px, 303px, white);
+      @include cross(481px, 303px, white);
     }
 
     &.cross-ng {
-      @include cross(789px, 303px, rgb(236, 235, 235));
+      @include cross(785px, 303px, rgb(236, 235, 235));
     }
   }
 
