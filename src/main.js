@@ -4,6 +4,7 @@ import { createPinia } from 'pinia';
 import App from './App.vue';
 import router from './router';
 import { Quasar } from 'quasar';
+import langTW from 'quasar/lang/zh-TW';
 import * as QCalendarMonth from '@quasar/quasar-ui-qcalendar/src/QCalendarMonth.js';
 import '@quasar/extras/roboto-font-latin-ext/roboto-font-latin-ext.css';
 import '@quasar/extras/material-icons/material-icons.css';
@@ -17,6 +18,7 @@ const app = createApp(App)
   .use(createPinia())
   .use(router)
   .use(Quasar, {
-    QCalendarMonth
+    QCalendarMonth,
+    lang: langTW,
   })
   .mount('#app');

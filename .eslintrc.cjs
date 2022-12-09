@@ -20,8 +20,8 @@ module.exports = {
       'error',
       {
         singleQuote: true,
-        printWidth: 100,
-        trailingComma: 'none'
+        printWidth: 100
+        // trailingComma: 'none'
       }
     ]
   }

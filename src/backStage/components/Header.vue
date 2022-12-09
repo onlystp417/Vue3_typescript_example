@@ -32,31 +32,31 @@ import { defineProps } from 'vue';
 const props = defineProps({
   avator: {
     type: String,
-    default: () => 'https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg'
-  }
+    default: () => 'https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg',
+  },
 });
 
 const menuList = [
   {
     label: '首頁',
-    routeName: 'Appointment'
+    routeName: 'Appointment',
   },
   {
     label: '診所管理',
-    routeName: 'Appointment'
+    routeName: 'Appointment',
   },
   {
     label: '人員管理',
-    routeName: 'Appointment'
+    routeName: 'Employees',
   },
   {
     label: '病患管理',
-    routeName: 'Appointment'
+    routeName: 'Appointment',
   },
   {
     label: '歷程紀錄',
-    routeName: 'Appointment'
-  }
+    routeName: 'Appointment',
+  },
 ];
 </script>
 
