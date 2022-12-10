@@ -26,73 +26,25 @@ export default defineComponent({
       hoverable: true,
       focusable: true,
       focusType: [],
+      calendarHeaderHeight: 136,
+      cellHeight: 100,
       options: ['day', 'weekday', 'date', 'resource'],
-      resources: [
-        { id: 0, label: '休假人員', height: 50 },
-        {
-          id: 1,
-          label: '上午診001',
-          number: '001',
-          height: 100,
-        },
-        {
-          id: 2,
-          label: '上午診002',
-          number: '002',
-          title: '8:30-12:30',
-          height: 100,
-        },
-        {
-          id: 3,
-          label: '上午診OR1',
-          number: 'OR1',
-          height: 100,
-        },
-        {
-          id: 4,
-          label: '下午診001',
-          number: '001',
-          title: '14:00-17:00',
-          height: 100,
-        },
-        {
-          id: 5,
-          label: '下午診002',
-          number: '002',
-          height: 100,
-        },
-        {
-          id: 6,
-          label: '下午診OR1',
-          number: 'OR1',
-          height: 100,
-        },
-        {
-          id: 7,
-          label: '晚診001',
-          number: '001',
-          title: '18:00-20:30',
-          height: 100,
-        },
-        {
-          id: 8,
-          label: '晚診002',
-          number: '002',
-          height: 100,
-        },
-        {
-          id: 9,
-          label: '晚診OR1',
-          number: 'OR1',
-          height: 100,
-        },
-      ],
+      room: ['001', '002', 'OR1', 'OR4', 'OR5'],
+      label: ['上午診', '下午診', '晚診'],
+      labelInit: null,
+      resources: null,
       restSchedule: {
         4: {
           休假人員: [{ name: 'Sherry', time: '08:00 ~ 12:00' }],
         },
         6: {
-          休假人員: [{ name: 'Sherry' }, { name: 'Vue' }],
+          休假人員: [
+            { name: 'Sherry' },
+            { name: 'Vue' },
+            { name: 'Vue' },
+            { name: 'Vue' },
+            { name: 'Vue' },
+          ],
         },
         9: {
           休假人員: [{ name: 'Sherry' }, { name: 'Vue' }],
@@ -112,6 +64,7 @@ export default defineComponent({
         },
         6: {
           下午診002: [{ name: '李英雄醫師', type: '單筆' }],
+          晚診001: [],
         },
         9: {
           晚診001: [{ name: '李哈哈醫師', type: '單筆' }],
@@ -132,7 +85,15 @@ export default defineComponent({
       },
     };
   },
+  mounted() {
+    this.labelInit = this.labelPositionInit();
+    this.getLabelPosition(this.labelInit);
+    this.resources = this.getResourceData(this.label, this.room);
+  },
   methods: {
+    getHeaderHeight() {
+      return this.$refs.myCalendarHeader;
+    },
     getRestSchedule(scope) {
       const resource = scope.resource.label;
       const result = this.restSchedule[scope.timestamp.day];
@@ -153,11 +114,55 @@ export default defineComponent({
       const resource = scope.resource.label;
       return result && result[resource];
     },
-    getTotalDay(scope) {
-      return;
+    getResourceData(labelData, roomData) {
+      const resources = [];
+      for (let i = 0; i < labelData.length; i++) {
+        for (let j = 0; j < roomData.length; j++) {
+          resources.push({
+            label: labelData[i] + roomData[j],
+            room: roomData[j],
+          });
+        }
+      }
+      resources.forEach((item, index) => {
+        resources[index].id = index + 1;
+        resources[index].height = this.cellHeight;
+      });
+      resources.unshift({ id: 0, label: '休假人員', height: 100 });
+      return resources;
     },
-    getAgenda(day) {
-      return this.agenda[parseInt(day.day)];
+    getLabelPosition(labelInitArray) {
+      labelInitArray.forEach((item, index) => {
+        if (index) {
+          labelInitArray[index].top = this.doTopDistance(labelInitArray, index);
+        }
+      });
+    },
+    labelPositionInit() {
+      const labelInitArray = this.label.map((item, index) => {
+        return {
+          name: item,
+          top: this.calendarHeaderHeight + 30 + this.cellHeight + 3 + 3,
+          height:
+            this.cellHeight * this.room.length + (this.room.length - 1) * 1.5,
+          backgroundColor:
+            index === 0 || index === 2 ? 'rgb(236, 235, 235)' : 'white',
+        };
+      });
+      return labelInitArray;
+    },
+    doTopDistance(labelInitArray, index) {
+      const firstDistance =
+        this.calendarHeaderHeight + 30 + this.cellHeight + 3 + 3;
+      if (index === 0) {
+        return firstDistance;
+      } else {
+        return (
+          labelInitArray[index - 1].top +
+          labelInitArray[index - 1].height +
+          (parseInt(this.room.length / 2) * 1.5 - index)
+        );
+      }
     },
     onToday() {
       this.$refs.calendar.moveToToday();
@@ -184,21 +189,6 @@ export default defineComponent({
       this.duringWeek = total;
       return total;
     },
-    onClickDate(data) {
-      console.log('onClickDate', data);
-    },
-    onClickDayResource(data) {
-      console.log('onClickDayResource', data);
-    },
-    onClickResource(data) {
-      console.log('onClickResource', data);
-    },
-    onClickHeadResources(data) {
-      console.log('onClickHeadResources', data);
-    },
-    onClickHeadDay(data) {
-      console.log('onClickHeadDay', data);
-    },
     whichWeek(week) {
       switch (week) {
         case 0:
@@ -223,11 +213,12 @@ export default defineComponent({
 
 <template>
   <div class="calendar">
-    isEdit : {{ isEdit }}
+    isEdit : {{ isEdit }} ,myCalendarHeader: {{ getHeaderHeight() }},
+    labelPosition: {{ this.labelInit }}
     <div class="subcontent myCalendar">
       <div class="row justify-center">
         <div class="myCalendar__container">
-          <div class="myCalendar__header">
+          <div class="myCalendar__header" ref="myCalendarHeader">
             <div class="edit__container">
               <q-btn color="blue-grey-2" text-color="black">
                 編輯模式
@@ -281,39 +272,24 @@ export default defineComponent({
               </q-btn>
             </div>
           </div>
-          <div class="resources-container__cross cross-am">
-            <input v-if="isEdit" type="checkbox" />
-            <p>上</p>
-            <p>午</p>
-            <p>診</p>
-            <div class="cross__time">
-              <p>8:30</p>
-              <p>~</p>
-              <p>12:30</p>
+          <template v-for="cross in this.labelInit">
+            <div
+              class="resources-container__cross"
+              :style="{
+                top: `${cross['top']}px`,
+                height: `${cross['height']}px`,
+                backgroundColor: `${cross['backgroundColor']}`,
+              }"
+            >
+              <input v-if="isEdit" type="checkbox" />
+              <p v-for="name in cross.name">{{ name }}</p>
+              <div class="cross__time">
+                <p>8:30</p>
+                <p>~</p>
+                <p>12:30</p>
+              </div>
             </div>
-          </div>
-          <div class="resources-container__cross cross-pm">
-            <input v-if="isEdit" type="checkbox" />
-            <p>下</p>
-            <p>午</p>
-            <p>診</p>
-            <div class="cross__time">
-              <p>14:30</p>
-              <p>~</p>
-              <p>18:30</p>
-            </div>
-          </div>
-          <div class="resources-container__cross cross-ng">
-            <input v-if="isEdit" type="checkbox" />
-            <p>晚</p>
-            <p></p>
-            <p>診</p>
-            <div class="cross__time">
-              <p>19:00</p>
-              <p>~</p>
-              <p>21:30</p>
-            </div>
-          </div>
+          </template>
           <q-calendar-scheduler
             ref="calendar"
             locale="zh-HANT"
@@ -329,11 +305,6 @@ export default defineComponent({
             cell-width="130px"
             @change="onWeek"
             @moved="onMoved"
-            @click-date="onClickDate"
-            @click-day-resource="onClickDayResource"
-            @click-resource="onClickResource"
-            @click-head-resources="onClickHeadResources"
-            @click-head-day="onClickHeadDay"
           >
             <!-- <template #head-day-event>
                 <div>hello</div>
@@ -343,7 +314,7 @@ export default defineComponent({
                 <div class="qcalendar__checkbox">
                   <input v-show="isEdit" type="checkbox" />
                 </div>
-                <div class="qcalendar__day">
+                <div class="qcalendar__header__day">
                   <span>星期{{ whichWeek(scope.timestamp.weekday) }} </span>
                   <span
                     :class="
@@ -366,7 +337,6 @@ export default defineComponent({
             <template #head-resources>
               <div
                 style="
-                  width: 100;
                   display: flex;
                   align-items: center;
                   justify-content: center;
@@ -393,7 +363,7 @@ export default defineComponent({
                     v-if="item.label !== '休假人員'"
                   >
                     <input v-if="isEdit" type="checkbox" />
-                    <p>{{ item.number }}</p>
+                    <p>{{ item.room }}</p>
                   </div>
                 </div>
               </template>
@@ -402,47 +372,54 @@ export default defineComponent({
                 <p>22</p>
               </template> -->
             <template #day="{ scope }">
-              <template v-if="scope.resource.label !== '休假人員'">
-                <p v-if="!isEdit" style="margin: 0">add</p>
-              </template>
               <template v-for="r in getRestSchedule(scope)" :key="r.name">
-                <div style="background-color: yellow">
-                  {{ r.name }}
+                <div class="qcalendar__day__rest">
+                  <p>
+                    {{ r.name }}
+                  </p>
                 </div>
               </template>
-              <template
-                v-for="s in getSingleSchedule(scope)"
-                :key="s.name + s.time"
-              >
-                <div style="background-color: pink">
-                  <span>{{ s.name }}</span>
-                  <span> {{ s.time }}</span>
-                  <p>{{ s.type }}</p>
+              <div class="qcalendar__day">
+                <div class="qcalendar__day__card-group">
+                  <template
+                    v-for="s in getSingleSchedule(scope)"
+                    :key="s.name + s.time"
+                  >
+                    <div class="qcalendar__day__single">
+                      <span>{{ s.name }}</span>
+                      <span> {{ s.time }}</span>
+                      <p>{{ s.type }}</p>
+                    </div>
+                  </template>
+                  <template
+                    v-for="w in getWeekSchedule(scope)"
+                    :key="w.name + w.time"
+                  >
+                    <div class="qcalendar__day__week">
+                      <span>{{ w.name }}</span>
+                      <p>{{ w.type }}</p>
+                    </div>
+                  </template>
                 </div>
-              </template>
-              <template
-                v-for="w in getWeekSchedule(scope)"
-                :key="w.name + w.time"
-              >
-                <div style="background-color: goldenrod">
-                  <span>{{ w.name }}</span>
-                  <p>{{ w.type }}</p>
-                </div>
-              </template>
+                <template v-if="scope.resource.label !== '休假人員'">
+                  <p v-if="!isEdit" style="margin: 0">add</p>
+                </template>
+              </div>
             </template>
           </q-calendar-scheduler>
         </div>
       </div>
     </div>
+    <pre>
+      {{ resources }}
+    </pre>
   </div>
 </template>
 
 <style lang="scss">
-@mixin cross($top, $height, $bgGray) {
+@mixin cross {
   position: absolute;
-  top: $top;
   left: 0;
-  height: $height;
   z-index: 2;
   width: 60px;
 
@@ -453,7 +430,6 @@ export default defineComponent({
 
   font-size: 14px;
   font-weight: bold;
-  background-color: $bgGray;
   border-right: 1.5px solid rgb(197, 195, 195);
   border-left: 1.5px solid rgb(197, 195, 195);
 }
@@ -478,26 +454,17 @@ export default defineComponent({
       grid-template-columns: 55px 40px;
 
       &__cross {
+        @include cross;
+
         .cross__time {
           text-align: center;
           font-size: 12px;
           font-weight: 400;
         }
-
-        &.cross-am {
-          @include cross(234px, 303px, rgb(236, 235, 235));
-        }
-        &.cross-pm {
-          @include cross(539px, 303px, white);
-        }
-        &.cross-ng {
-          @include cross(843px, 303px, rgb(236, 235, 235));
-        }
       }
 
       &__label {
         text-align: center;
-
         margin: 0;
       }
     }
@@ -555,7 +522,7 @@ export default defineComponent({
       justify-content: center;
     }
 
-    .qcalendar__day {
+    &__day {
       display: flex;
       justify-content: center;
       align-items: center;
@@ -567,12 +534,43 @@ export default defineComponent({
       justify-content: flex-end;
     }
   }
+
+  .qcalendar__day {
+    padding: 0 5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    &__card-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    &__rest {
+      background-color: yellow;
+      p {
+        margin: 0;
+      }
+    }
+
+    &__single {
+      width: 90px;
+      background-color: pink;
+    }
+
+    &__week {
+      width: 90px;
+      background-color: goldenrod;
+    }
+  }
 }
 
 // 設定背景顏色
 .myCalendar .q-calendar-scheduler__resource--row {
   .q-calendar-scheduler__resource--days {
     &:first-child {
+      background-color: red;
       max-height: 50px;
     }
     &:not(:first-child) {
