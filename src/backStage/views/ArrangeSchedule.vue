@@ -18,7 +18,7 @@ export default defineComponent({
   },
   data() {
     return {
-      shape: false,
+      isEdit: false,
       duringWeek: null,
       todayColor: 'todayColor',
       selectedDate: today(),
@@ -153,6 +153,9 @@ export default defineComponent({
       const resource = scope.resource.label;
       return result && result[resource];
     },
+    getTotalDay(scope) {
+      return;
+    },
     getAgenda(day) {
       return this.agenda[parseInt(day.day)];
     },
@@ -220,27 +223,15 @@ export default defineComponent({
 
 <template>
   <div class="calendar">
-    <div
-      class="subcontent myCalendar"
-      style="display: flex; justify-content: center; flex-direction: column"
-    >
+    isEdit : {{ isEdit }}
+    <div class="subcontent myCalendar">
       <div class="row justify-center">
-        <div
-          style="
-            display: flex;
-            justify-content: center;
-            flex-direction: column;
-            align-items: center;
-            position: relative;
-            width: fit-content;
-            padding: 0;
-          "
-        >
+        <div class="myCalendar__container">
           <div class="myCalendar__header">
             <div class="edit__container">
               <q-btn color="blue-grey-2" text-color="black">
                 編輯模式
-                <q-toggle size="sm" v-model="shape" val="sm" />
+                <q-toggle size="sm" v-model="isEdit" val="sm" />
               </q-btn>
 
               <q-btn outline color="purple-5" text-color="black">
@@ -291,6 +282,7 @@ export default defineComponent({
             </div>
           </div>
           <div class="resources-container__cross cross-am">
+            <input v-if="isEdit" type="checkbox" />
             <p>上</p>
             <p>午</p>
             <p>診</p>
@@ -301,6 +293,7 @@ export default defineComponent({
             </div>
           </div>
           <div class="resources-container__cross cross-pm">
+            <input v-if="isEdit" type="checkbox" />
             <p>下</p>
             <p>午</p>
             <p>診</p>
@@ -311,6 +304,7 @@ export default defineComponent({
             </div>
           </div>
           <div class="resources-container__cross cross-ng">
+            <input v-if="isEdit" type="checkbox" />
             <p>晚</p>
             <p></p>
             <p>診</p>
@@ -330,10 +324,9 @@ export default defineComponent({
             :hoverable="hoverable"
             :focusable="focusable"
             :focus-type="focusType"
-            animated
             bordered
             style="width: 100%"
-            cell-width="120px"
+            cell-width="130px"
             @change="onWeek"
             @moved="onMoved"
             @click-date="onClickDate"
@@ -346,31 +339,39 @@ export default defineComponent({
                 <div>hello</div>
               </template> -->
             <template #head-day="{ scope }">
-              <div
-                style="
-                  font-size: 13px;
-                  display: flex;
-                  flex-direction: row;
-                  justify-content: space-between;
-                "
-              >
-                <input type="checkbox" />
-                <span>星期{{ whichWeek(scope.timestamp.weekday) }} </span>
-                <span
-                  :class="
-                    selectedDate === scope.timestamp.date ? 'todayColor' : ''
-                  "
-                  >{{ scope.timestamp.day }}</span
-                >
-                <button
-                  style="font-size: 10px; margin: 0; border: 1px gray solid"
-                >
-                  貼上
-                </button>
+              <div class="qcalendar__header">
+                <div class="qcalendar__checkbox">
+                  <input v-show="isEdit" type="checkbox" />
+                </div>
+                <div class="qcalendar__day">
+                  <span>星期{{ whichWeek(scope.timestamp.weekday) }} </span>
+                  <span
+                    :class="
+                      selectedDate === scope.timestamp.date ? 'todayColor' : ''
+                    "
+                    >{{ scope.timestamp.day }}</span
+                  >
+                </div>
+                <div class="qcalendar__header__feature">
+                  <button
+                    v-show="isEdit"
+                    style="font-size: 10px; margin: 0; border: 1px gray solid"
+                  >
+                    貼上
+                  </button>
+                  <p v-show="!isEdit" style="margin: 0">add</p>
+                </div>
               </div>
             </template>
             <template #head-resources>
-              <div style="width: 100%">
+              <div
+                style="
+                  width: 100;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                "
+              >
                 <span>診間/診次</span>
               </div>
             </template>
@@ -387,7 +388,13 @@ export default defineComponent({
                   v-if="resource.label === item.label"
                 >
                   <div></div>
-                  <p class="resources-container__label">{{ item.number }}</p>
+                  <div
+                    class="resources-container__label"
+                    v-if="item.label !== '休假人員'"
+                  >
+                    <input v-if="isEdit" type="checkbox" />
+                    <p>{{ item.number }}</p>
+                  </div>
                 </div>
               </template>
             </template>
@@ -395,6 +402,9 @@ export default defineComponent({
                 <p>22</p>
               </template> -->
             <template #day="{ scope }">
+              <template v-if="scope.resource.label !== '休假人員'">
+                <p v-if="!isEdit" style="margin: 0">add</p>
+              </template>
               <template v-for="r in getRestSchedule(scope)" :key="r.name">
                 <div style="background-color: yellow">
                   {{ r.name }}
@@ -428,9 +438,70 @@ export default defineComponent({
 </template>
 
 <style lang="scss">
+@mixin cross($top, $height, $bgGray) {
+  position: absolute;
+  top: $top;
+  left: 0;
+  height: $height;
+  z-index: 2;
+  width: 60px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 14px;
+  font-weight: bold;
+  background-color: $bgGray;
+  border-right: 1.5px solid rgb(197, 195, 195);
+  border-left: 1.5px solid rgb(197, 195, 195);
+}
+
 .myCalendar {
   --calendar-border: #bebebeff 1.5px solid;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  &__container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    width: fit-content;
+    padding: 0;
 
+    .resources-container {
+      position: relative;
+      display: grid;
+      grid-template-columns: 55px 40px;
+
+      &__cross {
+        .cross__time {
+          text-align: center;
+          font-size: 12px;
+          font-weight: 400;
+        }
+
+        &.cross-am {
+          @include cross(234px, 303px, rgb(236, 235, 235));
+        }
+        &.cross-pm {
+          @include cross(539px, 303px, white);
+        }
+        &.cross-ng {
+          @include cross(843px, 303px, rgb(236, 235, 235));
+        }
+      }
+
+      &__label {
+        text-align: center;
+
+        margin: 0;
+      }
+    }
+  }
   &__header {
     display: flex;
     justify-content: space-between;
@@ -469,8 +540,36 @@ export default defineComponent({
       }
     }
   }
+  .qcalendar__header {
+    padding: 5px;
+    height: 30px;
+
+    display: grid;
+    grid-template-columns: 0.5fr 2fr 1.5fr;
+    justify-content: space-between;
+    flex-direction: row;
+    font-size: 13px;
+    .qcalendar__checkbox {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .qcalendar__day {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 3px;
+    }
+
+    &__feature {
+      display: flex;
+      justify-content: flex-end;
+    }
+  }
 }
 
+// 設定背景顏色
 .myCalendar .q-calendar-scheduler__resource--row {
   .q-calendar-scheduler__resource--days {
     &:first-child {
@@ -523,58 +622,7 @@ export default defineComponent({
   }
 }
 
-@mixin cross($top, $height, $bgGray) {
-  position: absolute;
-  top: $top;
-  left: 0;
-  height: $height;
-  z-index: 2;
-  width: 60px;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  font-size: 14px;
-  font-weight: bold;
-  background-color: $bgGray;
-  border-right: 1.5px solid rgb(197, 195, 195);
-  border-left: 1.5px solid rgb(197, 195, 195);
-}
-
 .todayColor {
   color: orange;
-}
-.resources-container {
-  position: relative;
-  display: grid;
-  grid-template-columns: 55px 40px;
-
-  &__cross {
-    .cross__time {
-      text-align: center;
-      font-size: 12px;
-      font-weight: 400;
-    }
-
-    &.cross-am {
-      @include cross(234px, 303px, rgb(236, 235, 235));
-    }
-
-    &.cross-pm {
-      @include cross(539px, 303px, white);
-    }
-
-    &.cross-ng {
-      @include cross(843px, 303px, rgb(236, 235, 235));
-    }
-  }
-
-  &__label {
-    text-align: center;
-
-    margin: 0;
-  }
 }
 </style>
