@@ -26,7 +26,7 @@ export default defineComponent({
       hoverable: true,
       focusable: true,
       focusType: [],
-      calendarHeaderHeight: 136,
+      calendarHeaderHeight: 136 + 10,
       cellHeight: 100,
       options: ['day', 'weekday', 'date', 'resource'],
       room: ['001', '002', 'OR1', 'OR4', 'OR5'],
@@ -85,10 +85,32 @@ export default defineComponent({
       },
     };
   },
+  beforeCreate() {
+    console.log('before create: this.labelInit', this.labelInit);
+  },
+  created() {
+    console.log('create: this.labelInit', this.labelInit);
+  },
+  beforeMount() {
+    console.log('before mounted: this.labelInit', this.labelInit);
+  },
   mounted() {
     this.labelInit = this.labelPositionInit();
     this.getLabelPosition(this.labelInit);
+    console.log('mounted: this.labelInit', this.labelInit);
     this.resources = this.getResourceData(this.label, this.room);
+  },
+  beforeUpdate() {
+    console.log('beforeUpdate isEdit', this.isEdit);
+  },
+  updated() {
+    console.log('Update isEdit', this.isEdit);
+  },
+  beforeUnmount() {
+    console.log('beforeUnmount isEdit', this.isEdit);
+  },
+  unmounted() {
+    console.log('unmounted isEdit', this.isEdit);
   },
   methods: {
     getHeaderHeight() {
@@ -178,6 +200,9 @@ export default defineComponent({
     },
     onChange(data) {
       console.log('onChange', data);
+    },
+    onClickDate(data) {
+      console.log('onClickDate', data);
     },
     onWeek(data) {
       const start = data.start.split('-');
@@ -290,123 +315,128 @@ export default defineComponent({
               </div>
             </div>
           </template>
-          <q-calendar-scheduler
-            ref="calendar"
-            locale="zh-HANT"
-            v-model="selectedDate"
-            v-model:model-resources="resources"
-            view="week"
-            :now="nowDate"
-            :hoverable="hoverable"
-            :focusable="focusable"
-            :focus-type="focusType"
-            bordered
-            style="width: 100%"
-            cell-width="130px"
-            @change="onWeek"
-            @moved="onMoved"
-          >
-            <!-- <template #head-day-event>
-                <div>hello</div>
-              </template> -->
-            <template #head-day="{ scope }">
-              <div class="qcalendar__header">
-                <div class="qcalendar__checkbox">
-                  <input v-show="isEdit" type="checkbox" />
-                </div>
-                <div class="qcalendar__header__day">
-                  <span>星期{{ whichWeek(scope.timestamp.weekday) }} </span>
-                  <span
-                    :class="
-                      selectedDate === scope.timestamp.date ? 'todayColor' : ''
-                    "
-                    >{{ scope.timestamp.day }}</span
-                  >
-                </div>
-                <div class="qcalendar__header__feature">
-                  <button
-                    v-show="isEdit"
-                    style="font-size: 10px; margin: 0; border: 1px gray solid"
-                  >
-                    貼上
-                  </button>
-                  <p v-show="!isEdit" style="margin: 0">add</p>
-                </div>
-              </div>
-            </template>
-            <template #head-resources>
-              <div
-                style="
-                  display: flex;
-                  align-items: center;
-                  justify-content: center;
-                "
-              >
-                <span>診間/診次</span>
-              </div>
-            </template>
-            <template #resource-label="{ scope: { resource } }">
-              <div
-                class="resources-container"
-                v-if="resource.label === '休假人員'"
-              >
-                {{ resource.label }}
-              </div>
-              <template v-for="item in resources">
-                <div
-                  class="resources-container"
-                  v-if="resource.label === item.label"
-                >
-                  <div></div>
-                  <div
-                    class="resources-container__label"
-                    v-if="item.label !== '休假人員'"
-                  >
-                    <input v-if="isEdit" type="checkbox" />
-                    <p>{{ item.room }}</p>
+          <div class="qcalendar__container">
+            <q-calendar-scheduler
+              ref="calendar"
+              locale="zh-HANT"
+              v-model="selectedDate"
+              v-model:model-resources="resources"
+              view="week"
+              :now="nowDate"
+              :hoverable="hoverable"
+              :focusable="focusable"
+              :focus-type="focusType"
+              bordered
+              style="width: 100%"
+              cell-width="130px"
+              @change="onWeek"
+              @moved="onMoved"
+              @click-date="onClickDate"
+            >
+              <!-- <template #head-day-event>
+                  <div>hello</div>
+                </template> -->
+              <template #head-day="{ scope }">
+                <div class="qcalendar__header">
+                  <div class="qcalendar__checkbox">
+                    <input v-show="isEdit" type="checkbox" />
+                  </div>
+                  <div class="qcalendar__header__day">
+                    <span>星期{{ whichWeek(scope.timestamp.weekday) }} </span>
+                    <span
+                      :class="
+                        selectedDate === scope.timestamp.date
+                          ? 'todayColor'
+                          : ''
+                      "
+                      >{{ scope.timestamp.day }}</span
+                    >
+                  </div>
+                  <div class="qcalendar__header__feature">
+                    <button
+                      v-show="isEdit"
+                      style="font-size: 10px; margin: 0; border: 1px gray solid"
+                    >
+                      貼上
+                    </button>
+                    <p v-show="!isEdit" style="margin: 0">add</p>
                   </div>
                 </div>
               </template>
-            </template>
-            <!-- <template #resource-days="{ scope }">
-                <p>22</p>
-              </template> -->
-            <template #day="{ scope }">
-              <template v-for="r in getRestSchedule(scope)" :key="r.name">
-                <div class="qcalendar__day__rest">
-                  <p>
-                    {{ r.name }}
-                  </p>
+              <template #head-resources>
+                <div
+                  style="
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                  "
+                >
+                  <span>診間/診次</span>
                 </div>
               </template>
-              <div class="qcalendar__day">
-                <div class="qcalendar__day__card-group">
-                  <template
-                    v-for="s in getSingleSchedule(scope)"
-                    :key="s.name + s.time"
+              <template #resource-label="{ scope: { resource } }">
+                <div
+                  class="resources-container"
+                  v-if="resource.label === '休假人員'"
+                >
+                  {{ resource.label }}
+                </div>
+                <template v-for="item in resources">
+                  <div
+                    class="resources-container"
+                    v-if="resource.label === item.label"
                   >
-                    <div class="qcalendar__day__single">
-                      <span>{{ s.name }}</span>
-                      <span> {{ s.time }}</span>
-                      <p>{{ s.type }}</p>
+                    <div></div>
+                    <div
+                      class="resources-container__label"
+                      v-if="item.label !== '休假人員'"
+                    >
+                      <input v-if="isEdit" type="checkbox" />
+                      <p>{{ item.room }}</p>
                     </div>
-                  </template>
-                  <template
-                    v-for="w in getWeekSchedule(scope)"
-                    :key="w.name + w.time"
-                  >
-                    <div class="qcalendar__day__week">
-                      <span>{{ w.name }}</span>
-                      <p>{{ w.type }}</p>
-                    </div>
+                  </div>
+                </template>
+              </template>
+              <!-- <template #resource-days="{ scope }">
+                  <p>22</p>
+                </template> -->
+              <template #day="{ scope }">
+                <template v-for="r in getRestSchedule(scope)" :key="r.name">
+                  <div class="qcalendar__day__rest">
+                    <p>
+                      {{ r.name }}
+                    </p>
+                  </div>
+                </template>
+                <div class="qcalendar__day">
+                  <div class="qcalendar__day__card-group">
+                    <template
+                      v-for="s in getSingleSchedule(scope)"
+                      :key="s.name + s.time"
+                    >
+                      <div class="qcalendar__day__single">
+                        <span>{{ s.name }}</span>
+                        <span> {{ s.time }}</span>
+                        <p>{{ s.type }}</p>
+                      </div>
+                    </template>
+                    <template
+                      v-for="w in getWeekSchedule(scope)"
+                      :key="w.name + w.time"
+                    >
+                      <div class="qcalendar__day__week">
+                        <span>{{ w.name }}</span>
+                        <p>{{ w.type }}</p>
+                      </div>
+                    </template>
+                  </div>
+                  <template v-if="scope.resource.label !== '休假人員'">
+                    <p v-if="!isEdit" style="margin: 0">add</p>
                   </template>
                 </div>
-                <template v-if="scope.resource.label !== '休假人員'">
-                  <p v-if="!isEdit" style="margin: 0">add</p>
-                </template>
-              </div>
-            </template>
-          </q-calendar-scheduler>
+              </template>
+            </q-calendar-scheduler>
+          </div>
         </div>
       </div>
     </div>
@@ -433,19 +463,32 @@ export default defineComponent({
   border-right: 1.5px solid rgb(197, 195, 195);
   border-left: 1.5px solid rgb(197, 195, 195);
 }
+.calendar {
+  // display: flex;
+  // flex-direction: column;
+  // align-items: center;
+}
 
 .myCalendar {
   --calendar-border: #bebebeff 1.5px solid;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
+
+  .qcalendar__container {
+    width: 100%;
+  }
+
+  .row.justify-center {
+    max-width: 1020px;
+    width: 100%;
+    margin: 0 auto;
+  }
   &__container {
     display: flex;
     justify-content: center;
     flex-direction: column;
     align-items: center;
     position: relative;
-    width: fit-content;
+    gap: 10px;
+    width: 100%;
     padding: 0;
 
     .resources-container {
