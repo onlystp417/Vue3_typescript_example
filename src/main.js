@@ -10,6 +10,7 @@ import '@quasar/extras/roboto-font-latin-ext/roboto-font-latin-ext.css';
 import '@quasar/extras/material-icons/material-icons.css';
 import '@quasar/extras/material-icons-outlined/material-icons-outlined.css';
 import '@quasar/extras/material-icons-round/material-icons-round.css';
+import '@quasar/extras/fontawesome-v6/fontawesome-v6.css';
 
 import 'quasar/src/css/index.sass';
 import '@quasar/quasar-ui-qcalendar/src/css/calendar-month.sass';
