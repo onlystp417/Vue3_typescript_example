@@ -63,7 +63,7 @@ export default defineComponent({
         4: {
           上午診001: [
             {
-              name: '李美麗醫師',
+              name: '李美麗',
               startTime: '8:30',
               endTime: '12:30',
               clinic: '皮膚科 001',
@@ -73,7 +73,7 @@ export default defineComponent({
               isPublic: true,
             },
             {
-              name: '李英雄醫師',
+              name: '李英雄',
               startTime: '8:30',
               endTime: '12:30',
               clinic: '皮膚科 001',
@@ -84,7 +84,7 @@ export default defineComponent({
           ],
           下午診002: [
             {
-              name: '李英雄醫師',
+              name: '李英雄',
               startTime: '8:30',
               endTime: '12:30',
               clinic: '皮膚科 001',
@@ -95,7 +95,7 @@ export default defineComponent({
           ],
           上午診OR1: [
             {
-              name: '李哈哈醫師',
+              name: '李哈哈',
               startTime: '8:30',
               endTime: '12:30',
               clinic: '皮膚科 001',
@@ -108,7 +108,7 @@ export default defineComponent({
         6: {
           下午診002: [
             {
-              name: '李英雄醫師',
+              name: '李英雄',
               startTime: '8:30',
               endTime: '12:30',
               clinic: '皮膚科 001',
@@ -122,7 +122,7 @@ export default defineComponent({
         9: {
           晚診001: [
             {
-              name: '李哈哈醫師',
+              name: '李哈哈',
               startTime: '8:30',
               endTime: '12:30',
               clinic: '皮膚科 001',
@@ -135,7 +135,7 @@ export default defineComponent({
         10: {
           下午診001: [
             {
-              name: '李哈哈醫師',
+              name: '李哈哈',
               startTime: '8:30',
               endTime: '12:30',
               clinic: '皮膚科 001',
@@ -146,7 +146,7 @@ export default defineComponent({
           ],
           晚診001: [
             {
-              name: '李哈哈醫師',
+              name: '李哈哈',
               startTime: '8:30',
               endTime: '12:30',
               clinic: '皮膚科 001',
@@ -157,7 +157,7 @@ export default defineComponent({
           ],
           晚診002: [
             {
-              name: '李哈哈醫師',
+              name: '李哈哈',
               startTime: '8:30',
               endTime: '12:30',
               clinic: '皮膚科 001',
@@ -172,7 +172,7 @@ export default defineComponent({
         1: {
           下午診001: [
             {
-              name: '李哈哈醫師',
+              name: '李哈哈',
               startTime: '8:30',
               endTime: '12:00',
               clinic: '皮膚科 001',
@@ -185,7 +185,7 @@ export default defineComponent({
         6: {
           晚診002: [
             {
-              name: '李哈哈醫師',
+              name: '李哈哈',
               startTime: '8:30',
               endTime: '12:30',
               clinic: '皮膚科 001',
@@ -363,6 +363,12 @@ export default defineComponent({
               </q-btn>
 
               <q-btn outline size="md" color="purple-5" text-color="black">
+                <q-icon
+                  left
+                  name="fa-regular fa-calendar-plus"
+                  color="black"
+                  size="xs"
+                ></q-icon>
                 新增週期排班
               </q-btn>
             </div>
@@ -403,10 +409,22 @@ export default defineComponent({
                   @next="onNext"
                 />
               </div>
-              <q-btn size="md" style="background-color: #dcb5ff"
-                >快速發佈</q-btn
+              <q-btn size="md" color="accent">
+                <q-icon
+                  left
+                  name="fa-solid fa-eye"
+                  size="xs"
+                  color="blue-grey-1"
+                ></q-icon>
+                快速發佈</q-btn
               >
               <q-btn size="md" outline color="white" text-color="black">
+                <q-icon
+                  left
+                  name="fa-solid fa-download"
+                  size="xs"
+                  color="black"
+                ></q-icon>
                 下載 excel 檔
               </q-btn>
             </div>
@@ -466,7 +484,7 @@ export default defineComponent({
                       >{{ scope.timestamp.day }}</span
                     >
                   </div>
-                  <div class="qcalendar__header__feature">
+                  <div class="qcalendar__header__feature row items-center">
                     <q-btn
                       v-show="isEdit"
                       size="xs"
@@ -477,7 +495,11 @@ export default defineComponent({
                     >
                       貼上
                     </q-btn>
-                    <p v-show="!isEdit" style="margin: 0">add</p>
+                    <q-icon
+                      v-show="!isEdit"
+                      name="fa-regular fa-calendar-plus"
+                      color="accent"
+                    ></q-icon>
                   </div>
                 </div>
               </template>
@@ -521,7 +543,7 @@ export default defineComponent({
                 </template> -->
               <template #day="{ scope }">
                 <template v-for="r in getRestSchedule(scope)" :key="r.name">
-                  <div class="qcalendar__day__rest row justify-between q-pa-xs">
+                  <div class="qcalendar__day__rest row justify-between">
                     <p>{{ r.startTime }} ~ {{ r.endTime }}</p>
                     <p>{{ r.name }} 醫師</p>
                     <q-btn
@@ -549,6 +571,21 @@ export default defineComponent({
                             : 'qcalendar__day__single--draft'
                         "
                       >
+                        <div v-if="isEdit" class="row justify-between">
+                          <input type="checkbox" />
+                          <div>
+                            <q-icon
+                              name="fa-solid fa-trash-can"
+                              size="xs"
+                              color="negative"
+                            ></q-icon>
+                            <q-icon
+                              name="fa-solid fa-clone"
+                              size="xs"
+                              color="primary"
+                            ></q-icon>
+                          </div>
+                        </div>
                         <p class="q-mb-none">
                           {{ s.startTime + '~' + s.endTime }} ({{
                             getTimeDuring(s.startTime, s.endTime)
@@ -566,7 +603,7 @@ export default defineComponent({
                             皮
                           </div>
                           <div>
-                            <p class="q-mb-none">{{ s.name }}</p>
+                            <p class="q-mb-none">{{ s.name }} 醫生</p>
                             <p class="q-mb-none">
                               上限
                               <span style="font-weight: bold">
@@ -621,6 +658,21 @@ export default defineComponent({
                             : 'qcalendar__day__week--draft'
                         "
                       >
+                        <div v-if="isEdit" class="row justify-between">
+                          <input type="checkbox" />
+                          <div>
+                            <q-icon
+                              name="fa-solid fa-trash-can"
+                              size="xs"
+                              color="negative"
+                            ></q-icon>
+                            <q-icon
+                              name="fa-solid fa-clone"
+                              size="xs"
+                              color="primary"
+                            ></q-icon>
+                          </div>
+                        </div>
                         <p class="q-mb-none">
                           {{ w.startTime + '~' + w.endTime }} ({{
                             getTimeDuring(w.startTime, w.endTime)
@@ -638,7 +690,7 @@ export default defineComponent({
                             皮
                           </div>
                           <div>
-                            <p class="q-mb-none">{{ w.name }}</p>
+                            <p class="q-mb-none">{{ w.name }} 醫師</p>
                             <p class="q-mb-none">
                               上限
                               <span style="font-weight: bold">
@@ -683,7 +735,11 @@ export default defineComponent({
                     </template>
                   </div>
                   <template v-if="scope.resource.label !== '休假人員'">
-                    <p v-if="!isEdit" style="margin: 0">add</p>
+                    <q-icon
+                      v-show="!isEdit"
+                      name="fa-regular fa-calendar-plus"
+                      color="accent"
+                    ></q-icon>
                   </template>
                 </div>
               </template>
@@ -803,9 +859,10 @@ export default defineComponent({
     }
 
     &__rest {
+      padding: 2px;
       color: black;
-      background-color: rgb(250, 217, 231);
-      border: 1px solid rgb(240, 77, 126);
+      background-color: rgb(241, 220, 229);
+      border: 1px solid rgb(248, 121, 159);
       margin: 3px;
       p {
         margin: 0;
