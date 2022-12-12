@@ -39,7 +39,7 @@ const router = createRouter({
         {
           path: '/arrangeSchedule',
           name: 'ArrangeSchedule',
-          component: () => import('@/backStage/views/arrangeSchedule.vue'),
+          component: () => import('@/backStage/views/ArrangeSchedule.vue'),
         },
         // 人員
         {
