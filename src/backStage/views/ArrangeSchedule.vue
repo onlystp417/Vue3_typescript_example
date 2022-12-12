@@ -26,7 +26,7 @@ export default defineComponent({
       hoverable: true,
       focusable: true,
       focusType: [],
-      calendarHeaderHeight: 136 + 10,
+      calendarHeaderHeight: 120 + 10,
       cellHeight: 100,
       options: ['day', 'weekday', 'date', 'resource'],
       room: ['001', '002', 'OR1', 'OR4', 'OR5'],
@@ -35,82 +35,173 @@ export default defineComponent({
       resources: null,
       restSchedule: {
         4: {
-          休假人員: [{ name: 'Sherry', time: '08:00 ~ 12:00' }],
+          休假人員: [{ name: 'Sherry', startTime: '08:00', endTime: '12:00' }],
         },
         6: {
           休假人員: [
-            { name: 'Sherry' },
-            { name: 'Vue' },
-            { name: 'Vue' },
-            { name: 'Vue' },
-            { name: 'Vue' },
+            { name: 'Sherry', startTime: '08:00', endTime: '12:00' },
+            { name: 'Vue', startTime: '08:00', endTime: '12:00' },
+            { name: 'Vue', startTime: '08:00', endTime: '12:00' },
+            { name: 'Vue', startTime: '08:00', endTime: '12:00' },
+            { name: 'Vue', startTime: '08:00', endTime: '12:00' },
           ],
         },
         9: {
-          休假人員: [{ name: 'Sherry' }, { name: 'Vue' }],
+          休假人員: [
+            { name: 'Sherry', startTime: '08:00', endTime: '12:00' },
+            { name: 'Vue', startTime: '08:00', endTime: '12:00' },
+          ],
         },
         10: {
-          休假人員: [{ name: 'Rex' }, { name: 'andy' }],
+          休假人員: [
+            { name: 'Rex', startTime: '08:00', endTime: '12:00' },
+            { name: 'andy', startTime: '08:00', endTime: '12:00' },
+          ],
         },
       },
       singleSchedule: {
         4: {
           上午診001: [
-            { name: '李美麗醫師', type: '單筆' },
-            { name: '李英雄醫師', type: '單筆' },
+            {
+              name: '李美麗醫師',
+              startTime: '8:30',
+              endTime: '12:30',
+              clinic: '皮膚科 001',
+              period: '上午診',
+              limit: 30,
+              isInterval: false,
+              isPublic: true,
+            },
+            {
+              name: '李英雄醫師',
+              startTime: '8:30',
+              endTime: '12:30',
+              clinic: '皮膚科 001',
+              limit: 30,
+              isInterval: false,
+              isPublic: true,
+            },
           ],
-          下午診002: [{ name: '李英雄醫師', type: '單筆' }],
-          上午診OR1: [{ name: '李哈哈醫師', type: '單筆' }],
+          下午診002: [
+            {
+              name: '李英雄醫師',
+              startTime: '8:30',
+              endTime: '12:30',
+              clinic: '皮膚科 001',
+              limit: 30,
+              isInterval: false,
+              isPublic: true,
+            },
+          ],
+          上午診OR1: [
+            {
+              name: '李哈哈醫師',
+              startTime: '8:30',
+              endTime: '12:30',
+              clinic: '皮膚科 001',
+              limit: 30,
+              isInterval: false,
+              isPublic: true,
+            },
+          ],
         },
         6: {
-          下午診002: [{ name: '李英雄醫師', type: '單筆' }],
+          下午診002: [
+            {
+              name: '李英雄醫師',
+              startTime: '8:30',
+              endTime: '12:30',
+              clinic: '皮膚科 001',
+              limit: 30,
+              isInterval: false,
+              isPublic: true,
+            },
+          ],
           晚診001: [],
         },
         9: {
-          晚診001: [{ name: '李哈哈醫師', type: '單筆' }],
+          晚診001: [
+            {
+              name: '李哈哈醫師',
+              startTime: '8:30',
+              endTime: '12:30',
+              clinic: '皮膚科 001',
+              limit: 30,
+              isInterval: false,
+              isPublic: false,
+            },
+          ],
         },
         10: {
-          下午診001: [{ name: '李哈哈醫師', type: '單筆' }],
-          晚診001: [{ name: '李哈哈醫師', type: '單筆' }],
-          晚診002: [{ name: '李哈哈醫師', type: '單筆' }],
+          下午診001: [
+            {
+              name: '李哈哈醫師',
+              startTime: '8:30',
+              endTime: '12:30',
+              clinic: '皮膚科 001',
+              limit: 30,
+              isInterval: false,
+              isPublic: true,
+            },
+          ],
+          晚診001: [
+            {
+              name: '李哈哈醫師',
+              startTime: '8:30',
+              endTime: '12:30',
+              clinic: '皮膚科 001',
+              limit: 30,
+              isInterval: false,
+              isPublic: true,
+            },
+          ],
+          晚診002: [
+            {
+              name: '李哈哈醫師',
+              startTime: '8:30',
+              endTime: '12:30',
+              clinic: '皮膚科 001',
+              limit: 30,
+              isInterval: false,
+              isPublic: true,
+            },
+          ],
         },
       },
       weekSchedule: {
         1: {
-          下午診001: [{ name: '李哈哈醫師', type: '週期' }],
+          下午診001: [
+            {
+              name: '李哈哈醫師',
+              startTime: '8:30',
+              endTime: '12:00',
+              clinic: '皮膚科 001',
+              limit: 30,
+              isInterval: true,
+              isPublic: true,
+            },
+          ],
         },
         6: {
-          晚診002: [{ name: '李哈哈醫師', type: '週期' }],
+          晚診002: [
+            {
+              name: '李哈哈醫師',
+              startTime: '8:30',
+              endTime: '12:30',
+              clinic: '皮膚科 001',
+              limit: 30,
+              isInterval: true,
+              isPublic: false,
+            },
+          ],
         },
       },
     };
   },
-  beforeCreate() {
-    console.log('before create: this.labelInit', this.labelInit);
-  },
-  created() {
-    console.log('create: this.labelInit', this.labelInit);
-  },
-  beforeMount() {
-    console.log('before mounted: this.labelInit', this.labelInit);
-  },
   mounted() {
     this.labelInit = this.labelPositionInit();
     this.getLabelPosition(this.labelInit);
-    console.log('mounted: this.labelInit', this.labelInit);
     this.resources = this.getResourceData(this.label, this.room);
-  },
-  beforeUpdate() {
-    console.log('beforeUpdate isEdit', this.isEdit);
-  },
-  updated() {
-    console.log('Update isEdit', this.isEdit);
-  },
-  beforeUnmount() {
-    console.log('beforeUnmount isEdit', this.isEdit);
-  },
-  unmounted() {
-    console.log('unmounted isEdit', this.isEdit);
   },
   methods: {
     getHeaderHeight() {
@@ -186,6 +277,24 @@ export default defineComponent({
         );
       }
     },
+    getTimeDuring(startTime, endTime) {
+      const startTimeArray = startTime.split(':');
+      const endTimeArray = endTime.split(':');
+      const hours = Number(endTimeArray[0]) - Number(startTimeArray[0]);
+      const minutes = Number(endTimeArray[1]) - Number(startTimeArray[1]);
+      if (hours) {
+        return hours + '時' + minutes + '分';
+      } else {
+        return minutes + '分';
+      }
+    },
+    getTimeDuring1(startTime, endTime) {
+      const startTimeArray = startTime.split(':');
+      const endTimeArray = endTime.split(':');
+      const hours = Number(endTimeArray[0]) - Number(startTimeArray[0]);
+      const minutes = Number(endTimeArray[1]) - Number(startTimeArray[1]);
+      return (hours * 60 + minutes) / 60 + 'H';
+    },
     onToday() {
       this.$refs.calendar.moveToToday();
     },
@@ -241,26 +350,29 @@ export default defineComponent({
     isEdit : {{ isEdit }} ,myCalendarHeader: {{ getHeaderHeight() }},
     labelPosition: {{ this.labelInit }}
     <div class="subcontent myCalendar">
-      <div class="row justify-center">
+      <div class="row justify-center myCalendar--layout">
         <div class="myCalendar__container">
-          <div class="myCalendar__header" ref="myCalendarHeader">
-            <div class="edit__container">
-              <q-btn color="blue-grey-2" text-color="black">
+          <div
+            class="myCalendar__header row justify-between"
+            ref="myCalendarHeader"
+          >
+            <div class="edit__container column justify-end q-gutter-sm">
+              <q-btn size="md" color="blue-grey-2" text-color="black" dense>
                 編輯模式
-                <q-toggle size="sm" v-model="isEdit" val="sm" />
+                <q-toggle v-model="isEdit" size="xs" />
               </q-btn>
 
-              <q-btn outline color="purple-5" text-color="black">
+              <q-btn outline size="md" color="purple-5" text-color="black">
                 新增週期排班
               </q-btn>
             </div>
-            <div class="filter__container">
+            <div class="filter__container column items-center justify-center">
               <div class="during_week">
                 <p style="font-size: 30px">
                   {{ duringWeek }}
                 </p>
               </div>
-              <div class="filter-group">
+              <div class="filter-group row justify-center q-gutter-sm">
                 <div class="total-number">
                   <select name="" id="">
                     <option value="">1</option>
@@ -283,7 +395,7 @@ export default defineComponent({
                 </div>
               </div>
             </div>
-            <div class="download__container">
+            <div class="download__container column justify-center q-gutter-sm">
               <div class="myNavigation">
                 <navigation-bar
                   @today="onToday"
@@ -291,8 +403,10 @@ export default defineComponent({
                   @next="onNext"
                 />
               </div>
-              <q-btn style="background-color: #dcb5ff">快速發佈</q-btn>
-              <q-btn outline color="white" text-color="black">
+              <q-btn size="md" style="background-color: #dcb5ff"
+                >快速發佈</q-btn
+              >
+              <q-btn size="md" outline color="white" text-color="black">
                 下載 excel 檔
               </q-btn>
             </div>
@@ -328,7 +442,7 @@ export default defineComponent({
               :focus-type="focusType"
               bordered
               style="width: 100%"
-              cell-width="130px"
+              cell-width="200px"
               @change="onWeek"
               @moved="onMoved"
               @click-date="onClickDate"
@@ -353,12 +467,16 @@ export default defineComponent({
                     >
                   </div>
                   <div class="qcalendar__header__feature">
-                    <button
+                    <q-btn
                       v-show="isEdit"
-                      style="font-size: 10px; margin: 0; border: 1px gray solid"
+                      size="xs"
+                      style="color: purple; background: pink"
+                      padding="2px"
+                      dense
+                      unelevated
                     >
                       貼上
-                    </button>
+                    </q-btn>
                     <p v-show="!isEdit" style="margin: 0">add</p>
                   </div>
                 </div>
@@ -378,6 +496,7 @@ export default defineComponent({
                 <div
                   class="resources-container"
                   v-if="resource.label === '休假人員'"
+                  style="font-size: 16px; font-weight: bold"
                 >
                   {{ resource.label }}
                 </div>
@@ -402,10 +521,18 @@ export default defineComponent({
                 </template> -->
               <template #day="{ scope }">
                 <template v-for="r in getRestSchedule(scope)" :key="r.name">
-                  <div class="qcalendar__day__rest">
-                    <p>
-                      {{ r.name }}
-                    </p>
+                  <div class="qcalendar__day__rest row justify-between q-pa-xs">
+                    <p>{{ r.startTime }} ~ {{ r.endTime }}</p>
+                    <p>{{ r.name }} 醫師</p>
+                    <q-btn
+                      size="xs"
+                      outline
+                      text-color="black"
+                      dense
+                      style="background: white"
+                    >
+                      {{ getTimeDuring1(r.startTime, r.endTime) }}
+                    </q-btn>
                   </div>
                 </template>
                 <div class="qcalendar__day">
@@ -414,19 +541,144 @@ export default defineComponent({
                       v-for="s in getSingleSchedule(scope)"
                       :key="s.name + s.time"
                     >
-                      <div class="qcalendar__day__single">
-                        <span>{{ s.name }}</span>
-                        <span> {{ s.time }}</span>
-                        <p>{{ s.type }}</p>
+                      <div
+                        class="qcalendar__day__single column justify-between"
+                        :class="
+                          s.isPublic
+                            ? 'qcalendar__day__single--public'
+                            : 'qcalendar__day__single--draft'
+                        "
+                      >
+                        <p class="q-mb-none">
+                          {{ s.startTime + '~' + s.endTime }} ({{
+                            getTimeDuring(s.startTime, s.endTime)
+                          }})
+                        </p>
+                        <div class="row q-gutter-xs">
+                          <div
+                            class="q-mb-none row justify-center items-center"
+                            :class="
+                              s.isPublic
+                                ? 'qcalendar__day__single--public__clinic-name '
+                                : 'qcalendar__day__single--draft__clinic-name '
+                            "
+                          >
+                            皮
+                          </div>
+                          <div>
+                            <p class="q-mb-none">{{ s.name }}</p>
+                            <p class="q-mb-none">
+                              上限
+                              <span style="font-weight: bold">
+                                {{ s.limit }}
+                              </span>
+                              位
+                            </p>
+                          </div>
+                        </div>
+                        <div class="row justify-between items-center">
+                          <q-btn
+                            size="12px"
+                            flat
+                            style="color: black; background: lightgray"
+                            padding="2px"
+                            dense
+                          >
+                            {{ s.isInterval ? '週期排班' : '單筆排班' }}
+                          </q-btn>
+                          <q-btn
+                            v-if="s.isPublic"
+                            size="12px"
+                            flat
+                            style="color: black; background: gold"
+                            padding="2px"
+                            dense
+                          >
+                            已發佈
+                          </q-btn>
+                          <q-btn
+                            v-else
+                            size="12px"
+                            outline
+                            style="color: black"
+                            padding="2px"
+                            dense
+                          >
+                            草稿
+                          </q-btn>
+                        </div>
                       </div>
                     </template>
                     <template
                       v-for="w in getWeekSchedule(scope)"
                       :key="w.name + w.time"
                     >
-                      <div class="qcalendar__day__week">
-                        <span>{{ w.name }}</span>
-                        <p>{{ w.type }}</p>
+                      <div
+                        class="qcalendar__day__week column justify-between"
+                        :class="
+                          w.isPublic
+                            ? 'qcalendar__day__week--public'
+                            : 'qcalendar__day__week--draft'
+                        "
+                      >
+                        <p class="q-mb-none">
+                          {{ w.startTime + '~' + w.endTime }} ({{
+                            getTimeDuring(w.startTime, w.endTime)
+                          }})
+                        </p>
+                        <div class="row q-gutter-xs">
+                          <div
+                            class="q-mb-none row justify-center items-center"
+                            :class="
+                              w.isPublic
+                                ? 'qcalendar__day__week--public__clinic-name '
+                                : 'qcalendar__day__week--draft__clinic-name '
+                            "
+                          >
+                            皮
+                          </div>
+                          <div>
+                            <p class="q-mb-none">{{ w.name }}</p>
+                            <p class="q-mb-none">
+                              上限
+                              <span style="font-weight: bold">
+                                {{ w.limit }}
+                              </span>
+                              位
+                            </p>
+                          </div>
+                        </div>
+                        <div class="row justify-between items-center">
+                          <q-btn
+                            size="12px"
+                            flat
+                            style="color: black; background: lightgray"
+                            padding="2px"
+                            dense
+                          >
+                            {{ w.isInterval ? '週期排班' : '單筆排班' }}
+                          </q-btn>
+                          <q-btn
+                            v-if="w.isPublic"
+                            size="12px"
+                            flat
+                            style="color: black; background: gold"
+                            padding="2px"
+                            dense
+                          >
+                            已發佈
+                          </q-btn>
+                          <q-btn
+                            v-else
+                            size="12px"
+                            outline
+                            style="color: black"
+                            padding="2px"
+                            dense
+                          >
+                            草稿
+                          </q-btn>
+                        </div>
                       </div>
                     </template>
                   </div>
@@ -458,15 +710,10 @@ export default defineComponent({
   align-items: center;
   justify-content: center;
 
-  font-size: 14px;
+  font-size: 16px;
   font-weight: bold;
   border-right: 1.5px solid rgb(197, 195, 195);
   border-left: 1.5px solid rgb(197, 195, 195);
-}
-.calendar {
-  // display: flex;
-  // flex-direction: column;
-  // align-items: center;
 }
 
 .myCalendar {
@@ -476,8 +723,8 @@ export default defineComponent({
     width: 100%;
   }
 
-  .row.justify-center {
-    max-width: 1020px;
+  .row.justify-center.myCalendar--layout {
+    max-width: 1500px;
     width: 100%;
     margin: 0 auto;
   }
@@ -501,7 +748,7 @@ export default defineComponent({
 
         .cross__time {
           text-align: center;
-          font-size: 12px;
+          font-size: 15px;
           font-weight: 400;
         }
       }
@@ -513,52 +760,17 @@ export default defineComponent({
     }
   }
   &__header {
-    display: flex;
-    justify-content: space-between;
-
-    flex-direction: row;
     width: 100%;
-
-    .edit__container {
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-    }
-
-    .filter__container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-
-      .filter-group {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        gap: 10px;
-      }
-    }
-
-    .download__container {
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      .myNavigation {
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
-      }
-    }
   }
   .qcalendar__header {
     padding: 5px;
     height: 30px;
 
     display: grid;
-    grid-template-columns: 0.5fr 2fr 1.5fr;
+    grid-template-columns: 0.5fr 4fr 1.5fr;
     justify-content: space-between;
     flex-direction: row;
-    font-size: 13px;
+    font-size: 14px;
     .qcalendar__checkbox {
       display: flex;
       flex-direction: column;
@@ -579,7 +791,7 @@ export default defineComponent({
   }
 
   .qcalendar__day {
-    padding: 0 5px;
+    padding: 5px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -591,20 +803,73 @@ export default defineComponent({
     }
 
     &__rest {
-      background-color: yellow;
+      color: black;
+      background-color: rgb(250, 217, 231);
+      border: 1px solid rgb(240, 77, 126);
+      margin: 3px;
       p {
         margin: 0;
       }
     }
 
     &__single {
-      width: 90px;
-      background-color: pink;
+      color: black;
+      width: 150px;
+      font-size: 14px;
+      padding: 3px;
+
+      &--draft {
+        outline: dashed 1px gray;
+        background-color: white;
+
+        &__clinic-name {
+          height: 30px;
+          width: 30px;
+          border-radius: 2px;
+          outline: pink 1px solid;
+        }
+      }
+      &--public {
+        outline: 1px solid gray;
+        background-color: rgb(218, 235, 244);
+
+        &__clinic-name {
+          height: 30px;
+          width: 30px;
+          border-radius: 2px;
+          background-color: rgb(253, 205, 234);
+        }
+      }
     }
 
     &__week {
-      width: 90px;
-      background-color: goldenrod;
+      color: black;
+      width: 150px;
+      font-size: 14px;
+      padding: 3px;
+
+      &--draft {
+        outline: dashed 1px gray;
+        background-color: white;
+
+        &__clinic-name {
+          height: 30px;
+          width: 30px;
+          border-radius: 2px;
+          outline: rgb(242, 145, 35) 1px solid;
+        }
+      }
+      &--public {
+        outline: 1px solid gray;
+        background-color: rgb(250, 216, 175);
+
+        &__clinic-name {
+          height: 30px;
+          width: 30px;
+          border-radius: 2px;
+          background-color: rgb(255, 179, 0);
+        }
+      }
     }
   }
 }
