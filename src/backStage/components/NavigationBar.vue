@@ -1,6 +1,6 @@
 <template>
   <div class="justify-center" style="display: flex; flex-direction: row">
-    <div class="q-pa-md q-gutter-sm row">
+    <div class="q-gutter-sm row">
       <q-btn no-caps class="button" style="margin: 2px" @click="$emit('prev')">
         &lt;
       </q-btn>
