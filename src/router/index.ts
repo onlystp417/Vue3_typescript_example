@@ -14,25 +14,20 @@ const router = createRouter({
       path: '/admin',
       name: 'Admin',
       redirect: { name: 'Appointment' },
-      component: () =>
-        import(/* webpackChunkName: "admin" */ '@/backStage/views/Home.vue'),
+      component: () => import(/* webpackChunkName: "admin" */ '@/backStage/views/Home.vue'),
       children: [
         {
           path: '/appointment',
           name: 'Appointment',
           redirect: { name: 'AppointmentView' },
           component: () =>
-            import(
-              /* webpackChunkName: "admin" */ '@/backStage/views/Appointment.vue'
-            ),
+            import(/* webpackChunkName: "admin" */ '@/backStage/views/Appointment.vue'),
           children: [
             {
               path: '/appointmentView',
               name: 'AppointmentView',
               component: () =>
-                import(
-                  /* webpackChunkName: "admin" */ '@/backStage/views/AppointmentView.vue'
-                ),
+                import(/* webpackChunkName: "admin" */ '@/backStage/views/AppointmentView.vue'),
             },
           ],
         },
@@ -46,17 +41,13 @@ const router = createRouter({
           path: '/employees',
           name: 'Employees',
           component: () =>
-            import(
-              /* webpackChunkName: "employees" */ '@/backStage/views/employee/Employees.vue'
-            ),
+            import(/* webpackChunkName: "employees" */ '@/backStage/views/employee/Employees.vue'),
         },
         {
           path: '/employee',
           name: 'Employee',
           component: () =>
-            import(
-              /* webpackChunkName: "employees" */ '@/backStage/views/employee/Employee.vue'
-            ),
+            import(/* webpackChunkName: "employees" */ '@/backStage/views/employee/Employee.vue'),
         },
       ],
     },
@@ -64,8 +55,7 @@ const router = createRouter({
     {
       path: '/liff',
       name: 'liff',
-      component: () =>
-        import(/* webpackChunkName: "liff" */ '@/liff/views/Home.vue'),
+      component: () => import(/* webpackChunkName: "liff" */ '@/liff/views/Home.vue'),
       // children: [
       //   {
       //     path: 'navigation1',

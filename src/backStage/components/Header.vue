@@ -26,12 +26,13 @@
   </header>
 </template>
 
-<script setup>
-const props = defineProps({
-  avator: {
-    type: String,
-    default: () => 'https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg',
-  },
+<script lang="ts" setup>
+interface Props {
+  avator?: string;
+}
+
+withDefaults(defineProps<Props>(), {
+  avator: 'https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg',
 });
 
 const menuList = [
